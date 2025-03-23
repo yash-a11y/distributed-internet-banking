@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: internet-banking-user-service  # Change for each microservice
+
+server:
+  port: 8083  # Change port for each microservice
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/
+    register-with-eureka: true
+    fetch-registry: true
