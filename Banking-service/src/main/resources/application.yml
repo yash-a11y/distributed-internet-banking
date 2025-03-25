@@ -1,13 +1,20 @@
 spring:
   application:
-    name: eureka-server
+    name: Banking-service
 
 server:
-  port: 8761
+  port: 8081
 
 eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
   client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka/
     register-with-eureka: false
     fetch-registry: false
   server:
     wait-time-in-ms-when-sync-empty: 0
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 4000
