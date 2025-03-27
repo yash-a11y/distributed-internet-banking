@@ -20,4 +20,11 @@ public class userEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<bankAccountEntity> account;
 
+    public void setBankAccounts(List<bankAccountEntity> account) {
+        this.account = account;
+    }
+
+    public List<bankAccountEntity> getBankAccounts() {
+        return account;
+    }
 }

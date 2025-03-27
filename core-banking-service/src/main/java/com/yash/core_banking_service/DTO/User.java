@@ -1,9 +1,5 @@
 package com.yash.core_banking_service.DTO;
 
-import com.yash.core_banking_service.models.bankAccountEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 import java.util.List;
@@ -19,4 +15,11 @@ public class User {
     private String identificationNum;
     private List<bankAccount> account;
 
+    public List<bankAccount> getBankAccounts() {
+        return account;
+    }
+
+    public void setBankAccounts(List<bankAccount> account) {
+        this.account = account;
+    }
 }
