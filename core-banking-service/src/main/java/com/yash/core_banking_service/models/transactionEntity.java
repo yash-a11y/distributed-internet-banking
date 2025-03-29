@@ -1,13 +1,17 @@
 package com.yash.core_banking_service.models;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
 @Builder
 @Entity
 @Table(name = "banking_core_transaction")
+@AllArgsConstructor
+@NoArgsConstructor
 public class transactionEntity {
 
     @Id
@@ -15,6 +19,8 @@ public class transactionEntity {
     private Long id;
 
     private BigDecimal amount;
+
+
 
     @Enumerated(EnumType.STRING)
     private transactionType transactionType;

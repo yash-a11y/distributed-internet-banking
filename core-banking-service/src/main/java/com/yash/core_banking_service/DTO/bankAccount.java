@@ -2,9 +2,13 @@ package com.yash.core_banking_service.DTO;
 
 import com.yash.core_banking_service.models.accountType;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
 @Data
 public class bankAccount {
 
@@ -15,5 +19,11 @@ public class bankAccount {
     private BigDecimal actualBalance;
     private User user;
 
+    public BigDecimal getActualBalance() {
+        return actualBalance;
+    }
 
+    public String getNumber() {
+        return number;
+    }
 }
