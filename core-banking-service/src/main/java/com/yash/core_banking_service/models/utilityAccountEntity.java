@@ -1,7 +1,11 @@
 package com.yash.core_banking_service.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "banking_core_utility_account")
 public class utilityAccountEntity {
@@ -12,6 +16,6 @@ public class utilityAccountEntity {
 
     private String number;
 
-    private String provideName;
+    private String providerName;
 
 }

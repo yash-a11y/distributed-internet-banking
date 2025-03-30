@@ -33,19 +33,5 @@ public class bankAccountEntity {
     private userEntity user;
 
 
-    public void setActBalance(BigDecimal actBalance) {
-        this.actBalance = actBalance;
-    }
 
-    public void setAvailBalance(BigDecimal availBalance) {
-        this.availBalance = availBalance;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public BigDecimal getActBalance() {
-        return actBalance;
-    }
 }

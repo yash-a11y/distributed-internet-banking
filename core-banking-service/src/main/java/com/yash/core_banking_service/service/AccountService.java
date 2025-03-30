@@ -37,7 +37,7 @@ public class AccountService {
     public utilityAccount readutilityAccount(String provider)
     {
 
-        utilityAccountEntity utilityAccountentity = utilityAccountRepo.findByProvidedName(provider).get();
+        utilityAccountEntity utilityAccountentity = utilityAccountRepo.findByProviderName(provider).get();
         return utilityAccMapper.convertToDto(utilityAccountentity);
 
     }

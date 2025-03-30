@@ -1,11 +1,15 @@
 package com.yash.core_banking_service.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "banking_core_user")
+@Getter
+@Setter
 public class userEntity {
 
     @Id
@@ -15,7 +19,7 @@ public class userEntity {
     private String firstName;
     private String lastName;
     private String email;
-    private String identificationNum;
+    private String identificationNumber;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<bankAccountEntity> account;

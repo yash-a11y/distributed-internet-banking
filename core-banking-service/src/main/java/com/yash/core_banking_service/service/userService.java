@@ -6,9 +6,10 @@ import com.yash.core_banking_service.models.userEntity;
 import com.yash.core_banking_service.repository.userRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
+
 import java.util.List;
 
 @Service
