@@ -1,6 +1,7 @@
 package com.yash.core_banking_service.controller;
 
 import com.yash.core_banking_service.DTO.fundTransferReq;
+import com.yash.core_banking_service.DTO.utilityPaymentReq;
 import com.yash.core_banking_service.service.transactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,4 +31,13 @@ public class transactionController {
         );
 
     }
-}
+
+    @PostMapping("/utill-payment")
+    public ResponseEntity utilPayment(@RequestBody utilityPaymentReq utilityPaymentRequest)
+    {
+        log.info("Utility Payment initiated in core bank from {}", utilityPaymentRequest.toString());
+        return ResponseEntity.ok(transactionService.utilityPaymentRes(utilityPaymentRequest));
+
+    }
+    }
+

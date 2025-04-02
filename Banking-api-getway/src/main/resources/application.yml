@@ -1,39 +1,22 @@
 app:
   config:
     keycloak:
-      url: http://localhost:8080/auth
+      url: http://localhost:8080  # Keycloak typically uses 8080, but 8180 if running via Docker
       realm: distributed-internet-banking
+
 spring:
   application:
-    name: Banking-api-getway
+    name: Banking-api-gateway
 
-  # Gateway Configurations
   cloud:
     gateway:
       routes:
-        ## USER SERVICE
-#        - id: Banking-user-service
-#          uri: lb://Banking-user-service
-#          predicates:
-#            - Path=/user/**
-#          filters:
-#            - StripPrefix=1
-
-
         - id: core-banking-service
           uri: lb://core-banking-service
           predicates:
             - Path=/banking-core/**
           filters:
-              - StripPrefix=1
-
-#        ## FUND TRANSFER SERVICE
-#        - id: internet-banking-fund-transfer-service
-#          uri: lb://internet-banking-fund-transfer-service
-#          predicates:
-#            - Path=/fund-transfer/**
-#          filters:
-#            - StripPrefix=1
+            - StripPrefix=1
 
   security:
     oauth2:
@@ -47,10 +30,10 @@ spring:
             jwk-set-uri: ${app.config.keycloak.url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/certs
             user-info-authentication-method: header
         registration:
-          banking-core-client:
+          internet-banking-core-client:
             provider: keycloak
             client-id: banking-core-client
-            client-secret: jXXIc7UZEiTkJet5vfCR5cOfuLjbsHPT
+            client-secret: dHvkaJ7tUB4e4cZRy83n9MeIoZ4txUXW
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
             scope: openid
@@ -63,9 +46,7 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+     hostname: localhost
   client:
     service-url:
       defaultZone: http://localhost:8081/eureka/
-    fetch-registry: true
-    register-with-eureka: true

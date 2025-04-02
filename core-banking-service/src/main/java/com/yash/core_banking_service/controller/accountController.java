@@ -17,6 +17,15 @@ public class accountController {
 
     private final AccountService accountService;
 
+    @GetMapping("/bank-account/{account_number}")
+    public ResponseEntity getBankAcc(@PathVariable("account_number") String accNumber)
+    {
+        log.info("Reading account by ID {}", accNumber);
+        return ResponseEntity.ok(
+                accountService.readBankAccount(accNumber)
+        );
+    }
+
     @GetMapping("/util-account/{account_name}")
     public ResponseEntity getUtilityAcc(@PathVariable("account_name") String providerName){
 
