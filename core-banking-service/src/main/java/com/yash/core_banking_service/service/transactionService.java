@@ -29,9 +29,9 @@ public class transactionService {
     private transactionRepo transactionRepo;
 
     public fundTransferResponse fundtransfer( fundTransferReq fundTransferRequest){
-        bankAccount fromAcc = accountService.readBankAccount(fundTransferRequest.getFromAcc());
+        bankAccount fromAcc = accountService.readBankAccount(fundTransferRequest.getFromAccount());
 
-        bankAccount toAcc = accountService.readBankAccount(fundTransferRequest.getToAcc());
+        bankAccount toAcc = accountService.readBankAccount(fundTransferRequest.getToAccount());
 
         validateBalance(fromAcc, fundTransferRequest.getAmount());
 
@@ -48,9 +48,9 @@ public class transactionService {
 
         bankAccountEntity toBankAccEntity = bankAccountRepo.findByNumber(toAcc.getNumber()).get();
 
-        fromBankAccEntity.setActBalance(fromBankAccEntity.getActBalance().subtract(amount));
+        fromBankAccEntity.setActualBalance(fromBankAccEntity.getActualBalance().subtract(amount));
 
-        fromBankAccEntity.setAvailBalance(fromBankAccEntity.getActBalance().subtract(amount));
+        fromBankAccEntity.setAvailableBalance(fromBankAccEntity.getActualBalance().subtract(amount));
 
         bankAccountRepo.save(fromBankAccEntity);
 
@@ -65,10 +65,10 @@ public class transactionService {
                 .amount(amount.negate()).build()
         );
 
-        toBankAccEntity.setActBalance(toBankAccEntity.getActBalance().add(amount
+        toBankAccEntity.setActualBalance(toBankAccEntity.getActualBalance().add(amount
         ));
 
-        toBankAccEntity.setAvailBalance(toBankAccEntity.getActBalance().add(amount));
+        toBankAccEntity.setAvailableBalance(toBankAccEntity.getActualBalance().add(amount));
 
         bankAccountRepo.save(toBankAccEntity);
 
@@ -107,9 +107,9 @@ public class transactionService {
 
         bankAccountEntity fromAcc = bankAccountRepo.findByNumber(fromBankAcc.getNumber()).get();
 
-        fromAcc.setActBalance(fromAcc.getActBalance().subtract(utilityPaymentRequest.getAmount()));
+        fromAcc.setActualBalance(fromAcc.getActualBalance().subtract(utilityPaymentRequest.getAmount()));
 
-        fromAcc.setActBalance(fromAcc.getActBalance().subtract(
+        fromAcc.setActualBalance(fromAcc.getActualBalance().subtract(
                 utilityPaymentRequest.getAmount()
         ));
 

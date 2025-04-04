@@ -19,11 +19,5 @@ public class bankAccount {
     private BigDecimal actualBalance;
     private User user;
 
-    public BigDecimal getActualBalance() {
-        return actualBalance;
-    }
 
-    public String getNumber() {
-        return number;
-    }
 }

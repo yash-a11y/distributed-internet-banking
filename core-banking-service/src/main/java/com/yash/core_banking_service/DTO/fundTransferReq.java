@@ -12,19 +12,9 @@ import java.math.BigDecimal;
 @Data
 public class fundTransferReq {
 
-    private String fromAcc;
-    private String toAcc;
+    private String fromAccount;
+    private String toAccount;
     private BigDecimal  amount;
 
-    public String getFromAcc() {
-        return fromAcc;
-    }
 
-    public String getToAcc() {
-        return toAcc;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
 }

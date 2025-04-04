@@ -24,9 +24,9 @@ public class bankAccountEntity {
     @Enumerated(EnumType.STRING)
     private accountStatus status;
 
-    private BigDecimal availBalance;
+    private BigDecimal availableBalance;
 
-    private  BigDecimal actBalance;
+    private  BigDecimal actualBalance;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

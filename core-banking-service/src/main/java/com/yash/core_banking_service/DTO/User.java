@@ -1,9 +1,13 @@
 package com.yash.core_banking_service.DTO;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Setter
+@Getter
 @Data
 public class User {
 

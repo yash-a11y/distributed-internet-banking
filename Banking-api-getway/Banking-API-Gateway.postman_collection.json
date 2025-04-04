@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "your-collection-id",
+		"name": "Banking API Gateway",
+		"description": "Collection for testing Banking API Gateway with Keycloak authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Access Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic {{client_credentials}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "banking-core-client",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "testuser",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "test123",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/realms/distributed-internet-banking/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": [
+						"realms",
+						"distributed-internet-banking",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				},
+				"description": "Get access token from Keycloak using password grant flow"
+			}
+		},
+		{
+			"name": "Test API Gateway Endpoint",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/banking-core/api/v1/accounts",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8082",
+					"path": [
+						"banking-core",
+						"api",
+						"v1",
+						"accounts"
+					]
+				},
+				"description": "Test the API Gateway with a protected endpoint"
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "access_token",
+			"value": "your-access-token",
+			"type": "string"
+		},
+		{
+			"key": "client_credentials",
+			"value": "your-base64-encoded-credentials",
+			"type": "string"
+		}
+	]
+} 
