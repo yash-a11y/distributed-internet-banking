@@ -1,3 +1,10 @@
+app:
+  config:
+    keycloak:
+      server-url: http://localhost:8080/auth
+      realm: distributed-internet-banking
+      clientId: internet-banking-api-client
+      client-secret: oNfNYeAPJXGV90GLq9mW6Vto8vP5vtvN
 spring:
   application:
     name: Banking-user-service  # Change for each microservice
