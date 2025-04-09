@@ -1,14 +1,23 @@
 app:
   config:
     keycloak:
-      server-url: http://localhost:8080/auth
+      server-url: http://localhost:8080
       realm: distributed-internet-banking
       clientId: internet-banking-api-client
       client-secret: oNfNYeAPJXGV90GLq9mW6Vto8vP5vtvN
 spring:
   application:
     name: Banking-user-service  # Change for each microservice
-
+  datasource:
+    url: jdbc:mysql://localhost:3306/banking_core_user_service
+    username: root
+    password: 7112
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 server:
   port: 8083  # Change port for each microservice
 
@@ -18,5 +27,4 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8081/eureka/
-    register-with-eureka: true
-    fetch-registry: true
+
