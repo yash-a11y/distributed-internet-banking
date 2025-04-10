@@ -17,6 +17,14 @@ spring:
             - Path=/banking-core/**
           filters:
             - StripPrefix=1
+        ## USER SERVICE
+        - id: Banking-user-service
+          uri: lb://Banking-user-service
+
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
 
   security:
     oauth2:

@@ -18,6 +18,17 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    com.yas.Banking_user_service: TRACE
+    org.keycloak: TRACE
+    org.jboss.resteasy: TRACE
+    org.apache.http: TRACE
+    httpclient.wire: TRACE
+
 server:
   port: 8083  # Change port for each microservice
 

@@ -25,7 +25,11 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
-	implementation 'org.keycloak:keycloak-admin-client:23.0.7'
+	implementation('org.keycloak:keycloak-admin-client:23.0.7') {
+		exclude group: 'jakarta.ws.rs', module: 'rs-api'
+		exclude group: 'javax.ws.rs', module: 'jsr311-api'
+	}
+
 //	implementation 'jakarta.ws.rs:jakarta.ws.rs-api:3.1.0'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-mysql'
@@ -35,6 +39,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation ('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client') {
 		exclude group: 'jakarta.ws.rs', module: 'rs-api'
+		exclude group: 'javax.ws.rs', module: 'jsr311-api'
 	}
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
