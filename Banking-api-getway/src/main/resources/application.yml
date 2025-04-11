@@ -11,20 +11,28 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: core-banking-service
-          uri: lb://core-banking-service
-          predicates:
-            - Path=/banking-core/**
-          filters:
-            - StripPrefix=1
-        ## USER SERVICE
-        - id: Banking-user-service
-          uri: lb://Banking-user-service
+         - id: banking-fund-transfer-service
+           uri: lb://banking-fund-transfer-service
+           predicates:
+             - Path=/fund-transfer/**
+           filters:
+             - StripPrefix=1
+#        - id: core-banking-service
+#          uri: lb://core-banking-service
+#          predicates:
+#            - Path=/banking-core/**
+#          filters:
+#            - StripPrefix=1
+#        ## USER SERVICE
+#        - id: Banking-user-service
+#          uri: lb://Banking-user-service
+#          predicates:
+#            - Path=/user/**
+#          filters:
+#            - StripPrefix=1
 
-          predicates:
-            - Path=/user/**
-          filters:
-            - StripPrefix=1
+
+
 
   security:
     oauth2:

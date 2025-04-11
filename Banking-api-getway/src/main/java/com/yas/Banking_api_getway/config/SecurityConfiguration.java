@@ -21,7 +21,7 @@ public class SecurityConfiguration {
                         //ALL OTHER APIS ARE AUTHENTICATED
                         .anyExchange().authenticated()
                 )
-                .csrf(csrf -> csrf.disable())
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .oauth2Login(oauth2Login -> {})
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> {})
