@@ -16,7 +16,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String identificationNum;
+    private String identificationNumber;
     private List<bankAccount> account;
 
     public List<bankAccount> getBankAccounts() {

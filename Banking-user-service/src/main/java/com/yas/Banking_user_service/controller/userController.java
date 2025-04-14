@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class userController {
 
+
     @Autowired
     private keycloakUserService keycloakUserService;
 

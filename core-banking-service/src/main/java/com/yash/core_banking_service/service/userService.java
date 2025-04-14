@@ -4,6 +4,7 @@ import com.yash.core_banking_service.DTO.User;
 import com.yash.core_banking_service.mapper.userMapper;
 import com.yash.core_banking_service.models.userEntity;
 import com.yash.core_banking_service.repository.userRepo;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +19,13 @@ public class userService {
     private userMapper usermapper = new userMapper();
 
 
-    @Autowired
-    private userRepo userRepository;
+
+    private final userRepo userRepository;
 
     public User readUser(String identify)
     {
         userEntity userentity = userRepository.findByIdentificationNumber(identify
-        ).get();
+        ).orElseThrow(EntityNotFoundException::new);
 
         return usermapper.convertToDto(userentity);
 

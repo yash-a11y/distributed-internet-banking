@@ -1,11 +1,14 @@
 package com.yas.Banking_user_service.service;
 
+import com.yas.Banking_user_service.exception.GlobalErrorCode;
+import com.yas.Banking_user_service.exception.invalidUserException;
 import com.yas.Banking_user_service.mapper.userMapper;
 import com.yas.Banking_user_service.model.dto.status;
 import com.yas.Banking_user_service.model.dto.user;
 import com.yas.Banking_user_service.model.dto.userUpdateReq;
 import com.yas.Banking_user_service.model.entity.userEntity;
 import com.yas.Banking_user_service.model.repo.userRepo;
+import com.yas.Banking_user_service.model.response.userResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -26,6 +28,9 @@ public class userService {
 
     private final keycloakUserService keycloakUserService;
     private final userRepo userRepository;
+
+    private final bankingCoreClient bankingCoreClient;
+
 
     private userMapper userMapper = new userMapper();
 
@@ -37,15 +42,24 @@ public class userService {
 
         if(userRepresentationList.size() > 0)
         {
-            throw new RuntimeException("" +
-                    "email already registered as a user !");
+            throw new invalidUserException(
+                    "This email already registered as a user. Please check and retry.", GlobalErrorCode.ERROR_EMAIL_REGISTERED);
+        }
+
+        userResponse userResponse = bankingCoreClient.readUser(user.getIdentification());
+
+        if(userResponse.getId() != null)
+        {
+            if(!userResponse.getEmail().equals(user.getEmail())){
+                throw new invalidUserException("Incorrect email. Please check and retry.", GlobalErrorCode.ERROR_INVALID_EMAIL);
+            }
         }
 
         UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setEmail(user.getEmail());
+        userRepresentation.setEmail(userResponse.getEmail());
         userRepresentation.setEmailVerified(false);
         userRepresentation.setEnabled(false);
-        userRepresentation.setUsername(user.getEmail());
+        userRepresentation.setUsername(userResponse.getEmail());
 
         CredentialRepresentation credentialRepresentation=
                 new CredentialRepresentation();
@@ -67,8 +81,8 @@ public class userService {
                     keycloakUserService.readUserByEmail(user.getEmail());
 
             user.setAuthId(userRepresentations1.get(0).getId());
-            user.setStatus(String.valueOf(status.PENDING));
-            user.setIdentification(UUID.randomUUID().toString());
+            user.setStatus(status.PENDING.toString());
+            user.setIdentification(userResponse.getIdentificationNumber());
 
             userEntity  userEntitySave = userRepository.save(
                     userMapper.convertToEntity(user)
@@ -77,9 +91,7 @@ public class userService {
             return userMapper.convertToDto(userEntitySave);
         }
 
-        throw new RuntimeException(
-                "could not find user under given identification!"
-        );
+        throw new invalidUserException("We couldn't find user under given identification. Please check and retry", GlobalErrorCode.ERROR_USER_NOT_FOUND_UNDER_NIC);
 
     }
 

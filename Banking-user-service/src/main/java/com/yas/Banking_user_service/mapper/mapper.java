@@ -38,7 +38,7 @@ public abstract class mapper<E,D> {
 
     public List<D> convertToDtoList(Collection<E> entity, Object... args)
     {
-        return convertToDtoList(
+        return convertToDto(
                 entity, args).stream().collect(
                         Collectors  .toList()
         );
@@ -54,7 +54,7 @@ public abstract class mapper<E,D> {
 
     public Set<D> convertToDtoSet(Collection<E> entity, Object... args)
     {
-        return convertToDtoList(
+        return convertToDto(
                 entity, args).stream().collect(
                 Collectors.toSet()
         );
