@@ -1,7 +1,6 @@
 package com.yas.Banking_user_service.service;
 
-import com.yas.Banking_user_service.exception.GlobalErrorCode;
-import com.yas.Banking_user_service.exception.invalidUserException;
+import com.yas.Banking_user_service.exception.*;
 import com.yas.Banking_user_service.mapper.userMapper;
 import com.yas.Banking_user_service.model.dto.status;
 import com.yas.Banking_user_service.model.dto.user;
@@ -42,7 +41,7 @@ public class userService {
 
         if(userRepresentationList.size() > 0)
         {
-            throw new invalidUserException(
+            throw new userAlreadyExists(
                     "This email already registered as a user. Please check and retry.", GlobalErrorCode.ERROR_EMAIL_REGISTERED);
         }
 
@@ -51,7 +50,7 @@ public class userService {
         if(userResponse.getId() != null)
         {
             if(!userResponse.getEmail().equals(user.getEmail())){
-                throw new invalidUserException("Incorrect email. Please check and retry.", GlobalErrorCode.ERROR_INVALID_EMAIL);
+                throw new invalidEmailException("Incorrect email. Please check and retry.", GlobalErrorCode.ERROR_INVALID_EMAIL);
             }
         }
 
@@ -119,7 +118,7 @@ public class userService {
     {
         user userdto = userMapper.convertToDto(
                 userRepository.findById(userID).orElseThrow(
-                        EntityNotFoundException::new
+                        entityNotFound::new
                 )
 
         );
