@@ -27,27 +27,4 @@ public class bankingGlobException extends RuntimeException{
         super(message);
     }
 
-
-    private bankingGlobException extractBankingGlobException(Response response)
-    {
-        bankingGlobException exceptionMsg = null;
-        Reader reader = null;
-
-        try{
-            reader = response.body().asReader(
-                    StandardCharsets.UTF_8
-            );
-            String result = IOUtils.toString(reader);
-            ObjectMapper mapper = new ObjectMapper();
-
-            mapper.disable(
-                    DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-            );
-
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -25,6 +25,9 @@ public class fundTransferService {
     @Autowired
     private fundTransferRepo fundTransferRepository;
 
+
+    private bankingCoreFeignClient bankingCoreFeignClient;
+
     private fundTransferMapper mapper = new fundTransferMapper();
 
 
@@ -39,11 +42,12 @@ public class fundTransferService {
         entity.setStatus(transactionStatus.PENDING);
         fundTransferEntity optFundTransfer = fundTransferRepository.save(entity);
 
-        fundTransferResponse response = new fundTransferResponse();
-        response.setTransactionId(
-                UUID.randomUUID().toString()
-        );
-        response.setMessage("Success");
+        fundTransferResponse response = bankingCoreFeignClient.fundTransfer(req);
+        optFundTransfer.setTransactionReference(response.getTransactionId());
+        optFundTransfer.setStatus(transactionStatus.SUCCESS);
+        fundTransferRepository.save(optFundTransfer);
+
+        response.setMessage("fund Transfer successfully");
 
         return response;
     }
