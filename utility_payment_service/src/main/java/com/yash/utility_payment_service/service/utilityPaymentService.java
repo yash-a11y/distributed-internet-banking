@@ -28,6 +28,9 @@ public class utilityPaymentService {
     @Autowired
     private utilityPaymentRepo utilityPaymentRepository;
 
+    @Autowired
+    private BankingCoreRestClient bankingCoreRestClient;
+
     private utilityPaymentMapper utilityPaymentMapper = new utilityPaymentMapper();
 
     public utilityPaymentRes payment(utilityPaymentReq utilityPaymentRequest)
@@ -42,15 +45,19 @@ public class utilityPaymentService {
 
         utilityPaymentEntity optPayment = utilityPaymentRepository.save(entity);
 
-        String trasactionId = UUID.randomUUID().toString();
+        utilityPaymentRes utilityPaymentResponse = bankingCoreRestClient.utilityPayment(utilityPaymentRequest);
+
+        log.info("Transaction response {}", utilityPaymentResponse.toString());
+
+
 
         optPayment.setStatus(transactionStatus.SUCCESS);
 
-        optPayment.setTransactionId(trasactionId);
+        optPayment.setTransactionId(utilityPaymentResponse.getTransactionId());
 
         utilityPaymentRepository.save(optPayment);
         return utilityPaymentRes.builder().message("util payment successfully processed")
-                .transactionId(trasactionId).build();
+                .transactionId(utilityPaymentResponse.getTransactionId()).build();
     }
 
     public List<utilityPayment> readPayments(Pageable pageable)
