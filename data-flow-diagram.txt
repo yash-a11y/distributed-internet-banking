@@ -1,0 +1,183 @@
+DISTRIBUTED INTERNET BANKING SYSTEM - DATA FLOW DIAGRAM
+=====================================================
+
+1. SYSTEM COMPONENTS
+-------------------
+- API Gateway (port 8082)
+- Keycloak Authentication Server (port 8180)
+- Banking Service/Eureka Server (port 8761)
+- User Service (port 8083)
+
+2. AUTHENTICATION FLOW
+---------------------
+Client Request → API Gateway → Keycloak → JWT Token → API Gateway → Service
+
+Detailed Steps:
+1. Client makes request to API Gateway
+2. If not authenticated:
+   a. Redirected to Keycloak login
+   b. User provides credentials
+   c. Keycloak validates and issues JWT token
+   d. Token returned to API Gateway
+   e. Gateway stores token for future requests
+
+3. SERVICE REGISTRY FLOW
+-----------------------
+Banking Service (Eureka Server) ←→ User Service
+Banking Service (Eureka Server) ←→ API Gateway
+
+4. API REQUEST FLOW
+------------------
+Client Request
+     ↓
+API Gateway (8082)
+     ↓
+Token Validation
+     ↓
+Route to Service
+     ↓
+[User Service (8083) OR Banking Service (8761)]
+     ↓
+Response back through Gateway
+     ↓
+Client receives response
+
+5. SECURITY FLOW
+---------------
+Request with JWT
+     ↓
+API Gateway Security Filter
+     ↓
+JWT Validation
+     ↓
+Route Permission Check
+     ↓
+Forward to Service
+
+6. REGISTRATION FLOW (Public Endpoint)
+------------------------------------
+Client
+     ↓
+API Gateway (/user/api/v1/bank-user/register)
+     ↓
+No Auth Required (permitAll)
+     ↓
+User Service
+     ↓
+Create User
+
+7. PROTECTED API FLOW
+--------------------
+Client (with JWT)
+     ↓
+API Gateway
+     ↓
+Validate JWT
+     ↓
+Check Permissions
+     ↓
+Route to Service
+     ↓
+Service Processing
+     ↓
+Response
+
+8. KEY COMPONENTS DETAILS
+------------------------
+A. API Gateway (port 8082)
+   - Entry point for all requests
+   - Handles authentication/authorization
+   - Routes requests to appropriate services
+   - Token relay to backend services
+
+B. Keycloak (port 8180)
+   - Authentication server
+   - Issues JWT tokens
+   - Manages user roles/permissions
+   - Provides login interface
+
+C. Banking Service (port 8761)
+   - Acts as Eureka Server
+   - Service registry and discovery
+   - Maintains service registry
+
+D. User Service (port 8083)
+   - Handles user management
+   - Registration endpoint (public)
+   - User operations (protected)
+
+9. SECURITY FEATURES
+-------------------
+- JWT-based authentication
+- Token validation at Gateway
+- Public registration endpoint
+- Protected service endpoints
+- Service discovery through Eureka
+
+10. ARCHITECTURE BENEFITS
+------------------------
+1. Centralized authentication
+2. Service discovery
+3. Load balancing
+4. API Gateway pattern
+5. Microservices architecture
+6. Secure communication
+
+11. CONFIGURATION DETAILS
+------------------------
+A. API Gateway Configuration:
+   - Port: 8082
+   - Security: JWT validation
+   - Routes: 
+     * /user/api/v1/bank-user/register (public)
+     * /banking-core/** (protected)
+     * All other routes (protected)
+
+B. Keycloak Configuration:
+   - Port: 8180
+   - Realm: distributed-internet-banking
+   - Client: banking-core-client
+   - Token Type: JWT
+
+C. Service Registry:
+   - Eureka Server: Banking Service (8761)
+   - Registered Services:
+     * User Service
+     * API Gateway
+
+12. SECURITY CONFIGURATION
+-------------------------
+A. JWT Validation:
+   - Uses Keycloak's JWK Set
+   - Validates token signature
+   - Checks token expiration
+   - Verifies token issuer
+
+B. Authorization:
+   - Role-based access control
+   - Path-based permissions
+   - Token relay to services
+
+13. ERROR HANDLING
+-----------------
+A. Authentication Errors:
+   - Invalid tokens
+   - Expired tokens
+   - Missing authentication
+
+B. Service Errors:
+   - Service unavailable
+   - Timeout handling
+   - Circuit breaker pattern
+
+14. MONITORING AND LOGGING
+-------------------------
+A. API Gateway:
+   - Request logging
+   - Authentication logs
+   - Routing logs
+
+B. Services:
+   - Service health
+   - Performance metrics
+   - Error tracking 
